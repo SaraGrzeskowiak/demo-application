@@ -1,0 +1,6 @@
+CREATE TABLE school
+(
+    id IDENTITY NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    hour_price NUMERIC(7,2)
+);
