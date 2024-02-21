@@ -1,5 +1,6 @@
 package com.example.demo.core.services;
 
+import com.example.demo.api.exception.NotFoundException;
 import com.example.demo.api.models.ParentBillingSummaryResponse;
 import com.example.demo.api.models.SchoolBillingSummaryResponse;
 import com.example.demo.core.dao.entity.ChildEntity;
@@ -26,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,6 +57,12 @@ class SchoolBillingServiceImplTest {
 
     @Captor
     ArgumentCaptor<List<Pair<LocalDateTime, LocalDateTime>>> billingItemsCaptor;
+
+    @Test
+    void shouldThrowExceptionWhenSchoolDoesNotExist() {
+        when(schoolRepository.existsById(anyInt())).thenReturn(false);
+        assertThrows(NotFoundException.class, () -> schoolBillingService.getBilling(1, LocalDate.now()));
+    }
 
     @Test
     void getBillingShouldSetAllResponseFields() {

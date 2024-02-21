@@ -1,5 +1,6 @@
 package com.example.demo.core.services;
 
+import com.example.demo.api.exception.NotFoundException;
 import com.example.demo.api.models.ChildBilling;
 import com.example.demo.api.models.ParentBillingSummaryResponse;
 import com.example.demo.core.dao.entity.billing.ParentBillingItemEntity;
@@ -17,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.util.Pair;
+import org.springframework.transaction.NoTransactionException;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -28,6 +30,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -51,6 +54,12 @@ class ParentBillingServiceImplTest {
 
     @Captor
     ArgumentCaptor<List<Pair<LocalDateTime, LocalDateTime>>> billingItemsCaptor;
+
+    @Test
+    void shouldThrowExceptionWhenParentDoesNotExist() {
+        when(parentRepository.findById(anyInt())).thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class, () -> parentBillingService.getBilling(1, LocalDate.now()));
+    }
 
     @Test
     void getBillingShouldSetAllResponseFields() {
