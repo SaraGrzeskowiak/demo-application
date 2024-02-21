@@ -36,9 +36,6 @@ class RepositoryIntegrationTest extends AbstractIntegrationTest {
         var item = items.get(0);
         assertThat(item.getFirstname()).isEqualTo(firstname);
         assertThat(item.getLastname()).isEqualTo(lastname);
-
-        // Cleanup
-        parentRepository.deleteAll();
     }
 
     @Test
@@ -60,9 +57,6 @@ class RepositoryIntegrationTest extends AbstractIntegrationTest {
         var item = items.get(0);
         assertThat(item.getFirstname()).isEqualTo(firstname);
         assertThat(item.getLastname()).isEqualTo(lastname);
-
-        // Cleanup
-        childRepository.deleteAll();
     }
 
     @Test
@@ -84,9 +78,6 @@ class RepositoryIntegrationTest extends AbstractIntegrationTest {
         var item = items.get(0);
         assertThat(item.getName()).isEqualTo(name);
         assertThat(item.getHourPrice()).isEqualTo(BigDecimal.valueOf(price));
-
-        // Cleanup
-        schoolRepository.deleteAll();
     }
 
     @Test
@@ -183,11 +174,5 @@ class RepositoryIntegrationTest extends AbstractIntegrationTest {
                                 tuple(entry1, exit1),
                                 tuple(entry2, exit2)
                         );
-
-        // Cleanup
-        parentRepository.deleteAll();
-        childRepository.deleteAll();
-        schoolRepository.deleteAll();
-        attendanceRepository.deleteAll();
     }
 }

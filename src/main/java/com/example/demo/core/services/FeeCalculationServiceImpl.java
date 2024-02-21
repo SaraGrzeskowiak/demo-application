@@ -41,6 +41,7 @@ public class FeeCalculationServiceImpl implements FeeCalculationService {
         Map<LocalDate, Map<Integer, Boolean>> payedHours = calculatePayedHours(attendances);
         Duration timeAtSchool = getTimeAtSchool(attendances);
         BigDecimal fee = calculateFee(hourPrice, payedHours);
+
         return new FeeCalculationSummary(timeAtSchool, fee);
     }
 
