@@ -1,3 +1,8 @@
+ALTER TABLE parent ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE school ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE child ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE attendance ALTER COLUMN id RESTART WITH 1;
+
 INSERT INTO parent (firstname, lastname) VALUES
 ('John', 'Doe'),
 ('Jane', 'Smith');
