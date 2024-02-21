@@ -2,13 +2,13 @@ package com.example.demo.core.services;
 
 import com.example.demo.api.models.ChildBilling;
 import com.example.demo.api.models.ParentBillingSummaryResponse;
-import com.example.demo.core.dao.entity.BillingItemEntity;
+import com.example.demo.core.dao.entity.billing.ParentBillingItemEntity;
 import com.example.demo.core.dao.entity.ChildEntity;
 import com.example.demo.core.dao.entity.ParentEntity;
 import com.example.demo.core.dao.repository.AttendanceRepository;
 import com.example.demo.core.dao.repository.ChildRepository;
 import com.example.demo.core.dao.repository.ParentRepository;
-import com.example.demo.core.model.FeeCalculationSummary;
+import com.example.demo.core.domain.FeeCalculationSummary;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -66,9 +66,14 @@ class ParentBillingServiceImplTest {
         BigDecimal totalFee = BigDecimal.valueOf(100);
         LocalDateTime entryDate = LocalDateTime.of(2024, 2, 1, 8, 0);
         LocalDateTime exitDate = LocalDateTime.of(2024, 2, 1, 15, 0);
-        List<BillingItemEntity> billingItems = Collections.singletonList(
-                new BillingItemEntity(1, hourPrice, 1, entryDate, exitDate)
-        );
+
+        var parentBillingItemEntity = new ParentBillingItemEntity();
+        parentBillingItemEntity.setChildId(1);
+        parentBillingItemEntity.setHourPrice(hourPrice);
+        parentBillingItemEntity.setId(1);
+        parentBillingItemEntity.setEntryDate(entryDate);
+        parentBillingItemEntity.setExitDate(exitDate);
+        List<ParentBillingItemEntity> billingItems = Collections.singletonList(parentBillingItemEntity);
 
         var parentEntity = ParentEntity.builder()
                 .id(parentId)
@@ -83,7 +88,7 @@ class ParentBillingServiceImplTest {
                 .build();
         when(childRepository.findAllById(any())).thenReturn(Collections.singletonList(childEntity));
         when(parentRepository.findById(parentId)).thenReturn(Optional.of(parentEntity));
-        when(attendanceRepository.findAttendance(parentId, billingDate.getMonthValue(), billingDate.getYear())).thenReturn(billingItems);
+        when(attendanceRepository.findAttendanceByParentId(parentId, billingDate.getMonthValue(), billingDate.getYear())).thenReturn(billingItems);
         when(feeCalculationService.calculateFee(any(), any())).thenReturn(new FeeCalculationSummary(Duration.ofHours(7), totalFee));
 
         // Act
@@ -92,12 +97,12 @@ class ParentBillingServiceImplTest {
         // Verify
         assertEquals(parentFirstname, response.getParent().getFirstname());
         assertEquals(parentLastname, response.getParent().getLastname());
-        assertEquals(totalFee, response.getTotalFee());
+        assertEquals(totalFee, response.getParentFee());
         assertEquals(1, response.getChildrenBillingSummary().size());
         ChildBilling childBilling = response.getChildrenBillingSummary().get(0);
         assertEquals(childFirstname, childBilling.getChild().getFirstname());
         assertEquals(childLastname, childBilling.getChild().getLastname());
-        assertEquals(totalFee, childBilling.getTotal());
+        assertEquals(totalFee, childBilling.getChildFee());
     }
 
     @Test
@@ -114,9 +119,14 @@ class ParentBillingServiceImplTest {
         BigDecimal totalFee = BigDecimal.valueOf(100);
         LocalDateTime entryDate = LocalDateTime.of(2024, 1, 31, 8, 0);
         LocalDateTime exitDate = LocalDateTime.of(2024, 3, 1, 15, 0);
-        List<BillingItemEntity> billingItems = Collections.singletonList(
-                new BillingItemEntity(1, hourPrice, 1, entryDate, exitDate)
-        );
+
+        var parentBillingItemEntity = new ParentBillingItemEntity();
+        parentBillingItemEntity.setChildId(1);
+        parentBillingItemEntity.setHourPrice(hourPrice);
+        parentBillingItemEntity.setId(1);
+        parentBillingItemEntity.setEntryDate(entryDate);
+        parentBillingItemEntity.setExitDate(exitDate);
+        List<ParentBillingItemEntity> billingItems = Collections.singletonList(parentBillingItemEntity);
 
         var parentEntity = ParentEntity.builder()
                 .id(parentId)
@@ -131,7 +141,7 @@ class ParentBillingServiceImplTest {
                 .build();
         when(childRepository.findAllById(any())).thenReturn(Collections.singletonList(childEntity));
         when(parentRepository.findById(parentId)).thenReturn(Optional.of(parentEntity));
-        when(attendanceRepository.findAttendance(parentId, billingDate.getMonthValue(), billingDate.getYear())).thenReturn(billingItems);
+        when(attendanceRepository.findAttendanceByParentId(parentId, billingDate.getMonthValue(), billingDate.getYear())).thenReturn(billingItems);
         when(feeCalculationService.calculateFee(any(), any())).thenReturn(new FeeCalculationSummary(Duration.ofHours(700), totalFee));
 
         // Act

@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParentBillingSummaryResponse {
-    private BigDecimal totalFee;
+    private BigDecimal parentFee;
     private ParsonNames parent;
     private List<ChildBilling> childrenBillingSummary;
 }

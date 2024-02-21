@@ -13,7 +13,7 @@ import java.time.Duration;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChildBilling {
-    private BigDecimal total;
+    private BigDecimal childFee;
     private ParsonNames child;
     private Duration timeAtSchool;
 }

@@ -1,7 +1,7 @@
 package com.example.demo.core.services;
 
 import com.example.demo.AbstractIntegrationTest;
-import com.example.demo.core.model.FeeCalculationSummary;
+import com.example.demo.core.domain.FeeCalculationSummary;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;

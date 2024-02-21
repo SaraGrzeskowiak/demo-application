@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.example.demo.core.model.FeeCalculationSummary;
+import com.example.demo.core.domain.FeeCalculationSummary;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;

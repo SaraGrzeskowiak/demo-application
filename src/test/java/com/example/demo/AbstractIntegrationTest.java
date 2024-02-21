@@ -4,7 +4,7 @@ import com.example.demo.core.dao.repository.AttendanceRepository;
 import com.example.demo.core.dao.repository.ChildRepository;
 import com.example.demo.core.dao.repository.ParentRepository;
 import com.example.demo.core.dao.repository.SchoolRepository;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +21,7 @@ public abstract class AbstractIntegrationTest {
     @Autowired
     protected AttendanceRepository attendanceRepository;
 
-    @AfterEach
+    @BeforeEach
     protected void cleanUp() {
         parentRepository.deleteAll();
         childRepository.deleteAll();
